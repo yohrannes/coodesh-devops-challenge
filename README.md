@@ -50,24 +50,25 @@ terraform -v
 
 ## Passos na execução do desafio.
 
-### 1 - Configuração do Servidor**
+### 1 - Configuração do Servidor
 
-1. Configuração de grupo de segurança na GCP
-
-
+1. Configuração de IAM com segurança na GCP
 
 2. Configuração da redes para o Servidor
+
 3. Configuração do servidor na GCP (mais barato possivel) com Ubuntu LTS.
+
 4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança, desempenho, backup e monitorização.
+
 5. Configuração do nginx para servir uma página web HTML estática.
 
-### 2 – Infra as Code**
+### 2 – Infra as Code
 
 1. Utilizando o Terraform
 
 Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.
 
-### 3 – Continuous Delivery**
+### 3 – Continuous Delivery
 
 Pipeline de apoio para a entrega contínua da aplicação de monitorização construída na Parte 2 no servidor configurado na Parte 1.
 
