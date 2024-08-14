@@ -45,6 +45,52 @@ sudo apt update; sudo apt-get install terraform
 ```
 terraform -v
 ```
+### 2 - Instalação do GCP CLI
+Mais informações neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
+
+- [ ] Conferindo pacotes e programas antes da instalação
+```
+sudo apt-get install apt-transport-https ca-certificates gnupg curl
+```
+- [ ] Importe a chave pública do Google Cloud.
+```
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+```
+- [ ] Adicione o URI de distribuição da CLI gcloud como uma origem de pacote.
+```
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+```
+- [ ] Atualize e instale a gcloud CLI.
+```
+sudo apt-get update && sudo apt-get install google-cloud-cli
+```
+- [ ] Execute gcloud init para começar.
+```
+gcloud init
+```
+- [ ] Aceite a opção de fazer login com sua conta de usuário do Google.
+```
+To continue, you must log in. Would you like to log in (Y/n)? Y
+```
+- [ ] No seu navegador, faça login na sua conta de usuário do Google quando solicitado e clique em Permitir para permitir acesso aos recursos do Google Cloud.
+- [ ] No prompt de comando, selecione um projeto do Google Cloud na lista. de projetos em que você tem permissões de Proprietário, Editor ou Leitor.
+```
+Pick cloud project to use:
+ [1] [my-project-1]
+ [2] [my-project-2]
+ ...
+ Please enter your numeric choice:
+```
+
+Após isso você já estará autenticado com o CLI!
+
+### 3 - Autenticação do Terraform com a GCP
+
+- [ ] Criando uma service account
+- [ ] Gerando arquivo de chave de service account (json)
+- [ ] Setando variável de ambiente
+- [ ] Configurando o provider
+- [ ] Atribuindo a regra para a criação da nossa VPS.
 
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 
@@ -53,13 +99,9 @@ terraform -v
 ### 1 - Configuração do Servidor
 
 1. Configuração de IAM com segurança na GCP
-
 2. Configuração da redes para o Servidor
-
 3. Configuração do servidor na GCP (mais barato possivel) com Ubuntu LTS.
-
 4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança, desempenho, backup e monitorização.
-
 5. Configuração do nginx para servir uma página web HTML estática.
 
 ### 2 - Infra as Code
