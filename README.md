@@ -2,20 +2,22 @@
 
 Este projeto consiste em realizar provisionamento de um servidor e hospedagem de website na Google Cloud, utilizando CI-CD e infra-as-code, com diversas ferramentas e configurações na melhor prática possível segunda as recomendações da GCP com segurança,grupos de segurança e configurações de rede provisionado totalmente por código.
 
-### Tecnologias utilizadas
+## Tecnologias utilizadas
+
+### Ferramentas
 - Docker
 - Terraform
 
-### Linguagens utilizadas
+### Linguagens
 - Python
 - Shell script
 
-### Frameworks
+### Framework
 - Flask
 
-### Instruções de instalação e provisionamento
+## Instruções de instalação e provisionamento
 
-#### Instalação do terraform no ubuntu
+### Instalação do terraform no ubuntu
 
 Caso possua outro sistema operacional verifique a documentação oficial neste [link](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
    
@@ -48,7 +50,7 @@ terraform -v
 
 ## Passos na execução do desafio.
 
-### ** 1 - Configuração do Servidor**
+### 1 - Configuração do Servidor**
 
 1. Configuração de grupo de segurança na GCP
 
@@ -59,13 +61,13 @@ terraform -v
 4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança, desempenho, backup e monitorização.
 5. Configuração do nginx para servir uma página web HTML estática.
 
-### ** 2 – Infra as Code**
+### 2 – Infra as Code**
 
 1. Utilizando o Terraform
 
 Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.
 
-### ** 3 – Continuous Delivery**
+### 3 – Continuous Delivery**
 
 Pipeline de apoio para a entrega contínua da aplicação de monitorização construída na Parte 2 no servidor configurado na Parte 1.
 
