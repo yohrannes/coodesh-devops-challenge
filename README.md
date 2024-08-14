@@ -87,10 +87,24 @@ Após isso você já estará autenticado com o CLI!
 ### 3 - Autenticação do Terraform com a GCP
 
 - [ ] Criando uma service account
+
+gcloud iam service-accounts create my-service-account \
+  --display-name "Minha Service Account"
+
+
+
 - [ ] Gerando arquivo de chave de service account (json)
+
+gcloud iam service-accounts keys create key.json \
+  --iam-account my-service-account@your-project-id.iam.gserviceaccount.com
+
 - [ ] Setando variável de ambiente
 - [ ] Configurando o provider
 - [ ] Atribuindo a regra para a criação da nossa VPS.
+
+gcloud projects add-iam-policy-binding your-project-id \
+  --member "serviceAccount:my-service-account@your-project-id.iam.gserviceaccount.com" \
+  --role "roles/compute.instanceAdmin"
 
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 
