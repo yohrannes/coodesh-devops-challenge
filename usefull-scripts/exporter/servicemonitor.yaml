@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: random-num-servicemonitor
+  namespace: prometheus
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: random-num
+  endpoints:
+    - targetPort: 8000
+      interval: 10s
+      path: /metrics

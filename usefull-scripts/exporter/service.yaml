@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: random-num
+  labels:
+    app: random-num
+spec:
+  selector:
+    app: random-num
+  ports:
+    - name: metrics
+      # Sets port on which the Service will listen for incoming traffic within the cluster.
+      port: 9102
+      # Specifies the port on the Pods to which the traffic should be forwarded. 
+      targetPort: 8000
+      protocol: TCP

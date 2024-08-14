@@ -1,0 +1,4 @@
+*/1 * * * * /script.sh >> /var/log/script.log
+*/3 * * * * echo > /var/log/script.log
+*/5 * * * * python3 /root/website-portifolio/usefull-scripts/get-last-commit.py >> /var/log/get-last-commit.log
+30 */1 * * * echo > /var/log/get-last-commit.log

@@ -1,0 +1,22 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: random-num
+spec:
+  replicas: 1
+  # match the pods controlled by deployment
+  selector:
+    matchLabels:
+      app: random-num
+  # pod template used by deploy to create a new pod.
+  template:
+    metadata:
+      labels:
+        app: random-num
+    spec:
+      containers:
+        - name: random-num
+          image: yohrannes/exporter
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
