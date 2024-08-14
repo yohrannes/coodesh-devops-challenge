@@ -17,7 +17,7 @@ Este projeto consiste em realizar provisionamento de um servidor e hospedagem de
 
 ## Instruções de instalação e provisionamento
 
-### Instalação do terraform no ubuntu
+### 1 - Instalação do terraform no ubuntu
 
 Caso possua outro sistema operacional verifique a documentação oficial neste [link](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
    
@@ -48,7 +48,7 @@ terraform -v
 
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 
-## Passos na execução do desafio.
+## Passos na executados no desafio.
 
 ### 1 - Configuração do Servidor
 
@@ -62,13 +62,13 @@ terraform -v
 
 5. Configuração do nginx para servir uma página web HTML estática.
 
-### 2 – Infra as Code
+### 2 - Infra as Code
 
 1. Utilizando o Terraform
 
 Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.
 
-### 3 – Continuous Delivery
+### 3 - Continuous Delivery
 
 Pipeline de apoio para a entrega contínua da aplicação de monitorização construída na Parte 2 no servidor configurado na Parte 1.
 
