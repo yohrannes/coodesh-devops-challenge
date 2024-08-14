@@ -17,7 +17,7 @@ Este projeto consiste em realizar provisionamentos e configurações na Google C
 
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 
-##Passos na execução do desafio.
+## Passos na execução do desafio.
 
 ### **Parte 1 - Configuração do Servidor**
 
