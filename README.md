@@ -46,8 +46,7 @@ sudo apt update; sudo apt-get install terraform
 terraform -v
 ```
 ### 2 - Instalação do GCP CLI
-
-  Mais informações neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
+Mais informações neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
 
 - [ ] Confira pacotes e programas antes da instalação
 ```
@@ -87,6 +86,7 @@ Após isso você já estará autenticado com o CLI!
 
 ### 3 - Autenticação do Terraform com a GCP
 
+<<<<<<< HEAD
   Primeiramente precisaremos fazer a criação de uma service account para podermos fazer o provisionamento no terraform somente da VPS, utilizando a recomendação amplamete utilizada em diversos casos garantindo isolamento de credenciais, mínimos priivlégios e facilitando auditorias, com total conformidade com as políticas de segurança.
 
 - [ ] Crie uma service account
@@ -133,6 +133,29 @@ terraform init
 terraform plan
 terraform apply
 ```
+=======
+- [ ] Criando uma service account
+
+gcloud iam service-accounts create my-service-account \
+  --display-name "Minha Service Account"
+
+
+
+- [ ] Gerando arquivo de chave de service account (json)
+
+gcloud iam service-accounts keys create key.json \
+  --iam-account my-service-account@your-project-id.iam.gserviceaccount.com
+
+- [ ] Setando variável de ambiente
+- [ ] Configurando o provider
+- [ ] Atribuindo a regra para a criação da nossa VPS.
+
+gcloud projects add-iam-policy-binding your-project-id \
+  --member "serviceAccount:my-service-account@your-project-id.iam.gserviceaccount.com" \
+  --role "roles/compute.instanceAdmin"
+
+- Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
+>>>>>>> parent of ba22f44 (update)
 
 ## Passos na executados no desafio.
 
