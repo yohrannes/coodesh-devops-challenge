@@ -21,23 +21,23 @@ Este projeto consiste em realizar provisionamento de um servidor e hospedagem de
 
 Caso possua outro sistema operacional verifique a documentação oficial neste [link](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
    
-- [ ] Conferindo sistema e pacotes necessários.
+- [ ] Confira o sistema e pacotes necessários.
 ```
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
 ```
-- [ ] Instalando a chave GPG
+- [ ] Instale a chave GPG
 ```
 wget -O- https://apt.releases.hashicorp.com/gpg | \
 gpg --dearmor | \
 sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
 ```
-- [ ] Adicionando repositorio oficial da Hashicorp
+- [ ] Adicione o repositorio oficial da Hashicorp
 ```
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
 https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
 sudo tee /etc/apt/sources.list.d/hashicorp.list
 ```
-- [ ] Instalando o terraform
+- [ ] Instale o terraform
 ```
 sudo apt update; sudo apt-get install terraform
 ```
@@ -49,7 +49,7 @@ terraform -v
 
   Mais informações neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
 
-- [ ] Conferindo pacotes e programas antes da instalação
+- [ ] Confira pacotes e programas antes da instalação
 ```
 sudo apt-get install apt-transport-https ca-certificates gnupg curl
 ```
@@ -89,22 +89,50 @@ Após isso você já estará autenticado com o CLI!
 
   Primeiramente precisaremos fazer a criação de uma service account para podermos fazer o provisionamento no terraform somente da VPS, utilizando a recomendação amplamete utilizada em diversos casos garantindo isolamento de credenciais, mínimos priivlégios e facilitando auditorias, com total conformidade com as políticas de segurança.
 
-- [ ] Criando uma service account
+- [ ] Crie uma service account
 ```
 gcloud iam service-accounts create sva-terraform-coodesh --display-name "sva-terraform-coodesh"
 ```
-- [ ] Gerando arquivo de chave de service account (json)
+- [ ] Liste as service accounts e copie o email da service account desejada.
 ```
-gcloud iam service-accounts keys create key.json \
-  --iam-account my-service-account@your-project-id.iam.gserviceaccount.com
+gcloud iam service-accounts list
 ```
-- [ ] Setando variável de ambiente
-- [ ] Configurando o provider
-- [ ] Atribuindo a regra para a criação da nossa VPS.
-
-gcloud projects add-iam-policy-binding your-project-id \
-  --member "serviceAccount:my-service-account@your-project-id.iam.gserviceaccount.com" \
-  --role "roles/compute.instanceAdmin"
+- [ ] Gere o arquivo de chave de service account (json)
+```
+gcloud iam service-accounts keys create key.json --iam-account <email-da-service-account-desejada>
+```
+- [ ] Setando variável de ambiente do project-id, credenciasi necessárias e região onde estará a VPS.
+```
+export GOOGLE_CLOUD_PROJECT=<seu-project-id>
+export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
+export GOOGLE_REGION=us-central1
+export GOOGLE_ZONE=us-central1-a
+```
+- [ ] Pegue o id do seu projeto e copie-o
+```
+gcloud projects list
+```
+- [ ] Liberar permissões de compute e network para a service account, mais informações neste [link.](https://cloud.google.com/iam/docs/understanding-roles#compute-engine-roles)
+```
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/compute.instanceAdmin.v1"; \
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/compute.networkAdmin";
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/cloudbuild.integrationsOwner";
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/vpcaccess.serviceAgent";
+```
+- [ ] Inicializando o terraform, e provisionando a VPS.
+```
+terraform init
+terraform plan
+terraform apply
+```
 
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 
