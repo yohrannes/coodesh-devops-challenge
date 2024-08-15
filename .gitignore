@@ -1,4 +1,5 @@
 key.json
+.terraform/
 .terraform
 .terraform.lock.hcl
 terraform.tfstate
