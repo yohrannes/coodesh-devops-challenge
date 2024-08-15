@@ -134,8 +134,6 @@ terraform plan
 terraform apply
 ```
 
-- Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
-
 ## Passos na executados no desafio.
 
 ### 1 - Configuração do Servidor
