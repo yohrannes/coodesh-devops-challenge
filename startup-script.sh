@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Instalando docker engine e executando a aplicação em container.
-sudo apt-get update
+useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 sudo apt-get install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc
