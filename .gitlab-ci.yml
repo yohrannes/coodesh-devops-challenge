@@ -7,7 +7,7 @@ build-job:
   image: ubuntu:22.04
   before_script:
     apt-get update;
-    apt-get install sudo;
+    apt-get install -y sudo;
     sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc
