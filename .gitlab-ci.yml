@@ -1,6 +1,5 @@
 stages:
   - build
-  - test
 
 build-job:
   stage: build
@@ -8,11 +7,5 @@ build-job:
   script:
     apt-get update;
     apt-get install -y sudo;
-    ls;
-teste-imagem-docker:
-  stage: test
-  script:
-    - echo "Running unit tests..."
-    - echo "Code coverage is 90%"
-
+    ./starttup-script.sh
 
