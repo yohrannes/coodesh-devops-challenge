@@ -4,7 +4,7 @@ stages:
 
 build-job:
   stage: build
-  image: docker:27.1.2-dind
+  image: ubuntu:22.04
   script:
     apt-get update
     apt-get install -y sudo
