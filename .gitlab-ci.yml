@@ -8,4 +8,5 @@ build-job:
     apt-get update;
     apt-get install -y sudo;
     whoami
+    which sudo
 
