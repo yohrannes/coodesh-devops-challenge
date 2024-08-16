@@ -137,9 +137,9 @@ terraform apply
 
 ### 1 - Configuração do Servidor
 
-1. Configuração de IAM com segurança na GCP
-2. Configuração da redes para o Servidor
-3. Configuração do servidor na GCP (mais barato possivel) com Ubuntu LTS.
+1. Configuração de IAM com segurança na GCP*
+2. Configuração da redes para o Servidor*
+3. Configuração do servidor na GCP (mais barato possivel) com Ubuntu LTS.*
 4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança, desempenho, backup e monitorização.
 5. Configuração do nginx para servir uma página web HTML estática.
 
@@ -147,7 +147,7 @@ terraform apply
 
 1. Utilizando o Terraform
 
-Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.
+Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.*
 
 ### 3 - Continuous Delivery
 
