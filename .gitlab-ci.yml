@@ -6,7 +6,7 @@ build-job:
   stage: build
   image: docker:27.1.2-dind
   script:
-    sudo docker build -t yohrannes/coodesh-challenge .
+    docker build -t yohrannes/coodesh-challenge .
 teste-imagem-docker:
   stage: test
   script:
