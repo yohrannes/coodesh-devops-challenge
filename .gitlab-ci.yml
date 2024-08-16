@@ -15,10 +15,11 @@ build-job:
     - which systemctl
     - echo "systemd instalado"
   script:
-    - sudo bash startup-files/startup-script.sh install-nginx
+    - sudo bash startup-files/startup-script.sh
     - |
       if [ $? -eq 0 ]; then
         echo "NGINX OK"
+        curl localhost:80
       else
         echo "Falha na instalação do NGINX"
         exit 1
