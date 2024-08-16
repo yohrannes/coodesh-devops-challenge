@@ -1,16 +1,25 @@
 stages:
-  - build
+  - test
 
 build-job:
-  stage: build
+  stage: test
   image: ubuntu:22.04
+  before_script:
+    - apt-get update
+    - apt-get install -y sudo
+    - whoami
+    - which sudo
+    - chmod +x /usr/bin/sudo
+    - sudo echo "sudo funcionando..."
+    - apt-get install -y systemd libpam-systemd
+    - which systemctl
+    - echo "systemd instalado"
   script:
-    apt-get update;
-    apt-get install -y sudo;
-    whoami;
-    which sudo;
-    chmod +x /usr/bin/sudo;
-    sudo echo "Sudo funcionando...";
-    apt-get install -y  systemd libpam-systemd;
-    which systemctl;
-    sudo bash startup-files/startup-script.sh install-nginx;
+    - sudo bash startup-files/startup-script.sh install-nginx
+    - |
+      if [ $? -eq 0 ]; then
+        echo "NGINX OK"
+      else
+        echo "Falha na instalação do NGINX"
+        exit 1
+      fi
