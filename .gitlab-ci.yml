@@ -1,7 +1,8 @@
 stages:
   - test
+  - build
 
-build-job:
+install-nginx-teste:
   stage: test
   image: ubuntu:22.04
   before_script:
@@ -15,7 +16,7 @@ build-job:
     - which systemctl
     - echo "systemd instalado"
   script:
-    - sudo bash startup-files/startup-script.sh
+    - sudo bash startup-files/startup-script.sh install-nginx
     - |
       if [ $? -eq 0 ]; then
         echo "NGINX OK"
@@ -24,3 +25,9 @@ build-job:
         echo "Falha na instalação do NGINX"
         exit 1
       fi
+
+build-app-image-teste:
+  stage: build
+  image: docker:27.1.2-dind
+  script:
+    - docker build -t yohrannes/coodesh-challenge
