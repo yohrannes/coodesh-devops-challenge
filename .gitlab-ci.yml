@@ -6,7 +6,7 @@ build-job:
   stage: build
   image: ubuntu:22.04
   before_script:
-    sudo bash startup-script.sh
+    ./startup-script.sh
   script:
     sudo docker build -t yohrannes/coodesh-challenge .
 teste-imagem-docker:
