@@ -4,11 +4,11 @@ stages:
 
 build-job:
   stage: build
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16
+  image: ubuntu:22.04
+  before_script:
+    sudo bash startup-script.sh
   script:
-    docker build -t yohrannes/coodesh-challenge .
+    sudo docker build -t yohrannes/coodesh-challenge .
 teste-imagem-docker:
   stage: test
   script:
