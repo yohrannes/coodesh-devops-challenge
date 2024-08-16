@@ -20,6 +20,7 @@ install-nginx-teste:
     - |
       if [ $? -eq 0 ]; then
         echo "NGINX OK"
+        apt-get install -y curl
         curl localhost:80
       else
         echo "Falha na instalação do NGINX"
