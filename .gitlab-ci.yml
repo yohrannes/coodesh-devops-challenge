@@ -11,6 +11,6 @@ build-job:
     which sudo;
     chmod +x /usr/bin/sudo;
     sudo echo "Sudo funcionando...";
-    apt-get install systemd libpam-systemd;
+    apt-get install -y  systemd libpam-systemd;
     which systemctl;
     #sudo bash startup-script.sh;
