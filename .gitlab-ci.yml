@@ -1,29 +1,18 @@
 stages:
   - build
   - test
-  - deploy
 
 build-job:
   stage: build
-  before_script:
-    sudo ./startup-script.sh
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16
   script:
-    sudo docker ps
-unit-test-job:
+    docker build -t yohrannes/coodesh-challenge .
+teste-imagem-docker:
   stage: test
   script:
     - echo "Running unit tests..."
     - echo "Code coverage is 90%"
 
-lint-test-job:
-  stage: test
-  script:
-    - echo "Linting code... "
-    - echo "No lint issues found."
 
-deploy-job:
-  stage: deploy
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
