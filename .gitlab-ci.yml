@@ -2,7 +2,7 @@ stages:
   - test
   - build
 
-install-nginx-teste:
+install-nginx-test:
   stage: test
   image: ubuntu:22.04
   before_script:
@@ -25,10 +25,47 @@ install-nginx-teste:
         exit 1
       fi
 
-build-app-image-teste:
+check-image-securoty:
+  stage: test
+  image: ubuntu:22.04
+  before_script:
+    - apt-get update
+    - apt-get install -y sudo
+    - whoami
+    - which sudo
+    - chmod +x /usr/bin/sudo
+    - sudo echo "sudo funcionando..."
+    - apt-get install -y systemd libpam-systemd
+    - which systemctl
+    - echo "systemd instalado"
+    - sudo apt-get install wget apt-transport-https gnupg lsb-release
+    - wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+    - echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    - sudo apt-get update
+    - sudo apt-get install trivy
+  script:
+    - trivy image yohrannes/website-portifolio > trivy-scan.txt
+    - |
+      if [ $? -eq 0 ]; then
+        echo "CHECANDO VULNERABILIDADES DA IMAGEM"
+        cat trivy-scan.txt
+      else
+        echo "Falha na instalação do NGINX"
+        exit 1
+      fi
+
+build-app-image-test:
   stage: build
   image: docker:27.1.2
   services:
     - docker:27.1.2-dind
   script:
     - docker build -t yohrannes/coodesh-challenge:latest .
+    - |
+      if [ $? -eq 0 ]; then
+        echo "IMAGEM DOCKER OK"
+      else
+        echo "Falha na instalação do NGINX"
+        exit 1
+      fi
+
