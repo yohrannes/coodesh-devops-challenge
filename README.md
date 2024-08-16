@@ -102,10 +102,10 @@ gcloud iam service-accounts keys create key.json --iam-account <email-da-service
 ```
 - [ ] Setando variável de ambiente do project-id, credenciasi necessárias e região onde estará a VPS.
 ```
-export GOOGLE_CLOUD_PROJECT=<seu-project-id>
-export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json
-export GOOGLE_REGION=us-central1
-export GOOGLE_ZONE=us-central1-a
+export GOOGLE_CLOUD_PROJECT=<seu-project-id>;
+export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json;
+export GOOGLE_REGION=us-central1;
+export GOOGLE_ZONE=us-central1-a;
 ```
 - [ ] Pegue o id do seu projeto e copie-o
 ```
