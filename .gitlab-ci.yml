@@ -10,4 +10,5 @@ build-job:
     whoami;
     which sudo;
     chmod +x /usr/bin/sudo;
-    sudo echo "sudo ? cade vc?";
+    sudo echo "Sudo funcionando...";
+    sudo bash startup-script.sh;
