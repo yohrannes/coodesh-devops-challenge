@@ -5,8 +5,10 @@ stages:
 
 build-job:
   stage: build
+  before_script:
+    sudo ./startup-script.sh
   script:
-    ./startup-script.sh
+    sudo docker ps
 unit-test-job:
   stage: test
   script:
