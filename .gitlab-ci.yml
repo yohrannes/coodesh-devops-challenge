@@ -9,4 +9,5 @@ build-job:
     apt-get install -y sudo;
     whoami;
     which sudo;
-
+    chmod +x /usr/bin/sudo;
+    sudo echo "sudo ? cade vc?";
