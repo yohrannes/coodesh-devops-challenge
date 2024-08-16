@@ -11,4 +11,5 @@ build-job:
     which sudo;
     chmod +x /usr/bin/sudo;
     sudo echo "Sudo funcionando...";
-    sudo bash startup-script.sh;
+    which systemctl;
+    #sudo bash startup-script.sh;
