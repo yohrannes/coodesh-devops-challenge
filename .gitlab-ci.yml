@@ -6,8 +6,8 @@ build-job:
   stage: build
   image: ubuntu:22.04
   script:
-    apt-get update
-    apt-get install -y sudo
+    apt-get update;
+    apt-get install -y sudo;
 teste-imagem-docker:
   stage: test
   script:
