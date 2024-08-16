@@ -13,4 +13,4 @@ build-job:
     sudo echo "Sudo funcionando...";
     apt-get install -y  systemd libpam-systemd;
     which systemctl;
-    sudo bash startup-script.sh;
+    sudo bash startup-files/startup-script.sh install-nginx;

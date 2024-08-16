@@ -79,8 +79,9 @@ resource "google_compute_instance" "coodesh-webserver" {
     }
   }
 }
-
 locals {
-  startup_script_path = "startup-script.sh"
+  startup_script_path = "startup-files/startup-script.sh"
+  install_nginx_script_path = "startup-files/install-nginx.sh"
   startup_script_content = file(local.startup_script_path)
+  install_nginx_script_content = file(local.install_nginx_script_path)
 }
