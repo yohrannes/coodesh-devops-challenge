@@ -132,6 +132,10 @@ terraform init
 terraform plan
 terraform apply
 ```
+  Após isso será necessário aguardar em torno de 8-10 minutos (devido a baixa potência da VPS) e acessar o link com http.
+```
+curl http://<ip-publico-da-vps>
+```
 
 ## Passos na executados no desafio.
 
@@ -140,14 +144,14 @@ terraform apply
 1. Configuração de IAM com segurança na GCP*
 2. Configuração da redes para o Servidor*
 3. Configuração do servidor na GCP (mais barato possivel) com Ubuntu LTS.*
-4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança, desempenho, backup e monitorização.
-5. Configuração do nginx para servir uma página web HTML estática.
+4. Instalação de configuração de softwares recomendados sob as perspectivas de segurança(docker,nginx-proxy), desempenho(alpine), backup e monitorização.
+5. Configuração do nginx para servir uma página web HTML estática.*
 
 ### 2 - Infra as Code
 
-1. Utilizando o Terraform
+1. Utilizando o Terraform*
 
-Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança e as configurações de rede criando completamente por código.*
+Projeto executando em um servidor e com as melhores práticas de segurança com grupos de segurança(service-account) e as configurações de rede criando completamente por código.*
 
 ### 3 - Continuous Delivery
 
