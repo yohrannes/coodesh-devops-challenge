@@ -7,5 +7,5 @@ build-job:
   script:
     apt-get update;
     apt-get install -y sudo;
-    ./starttup-script.sh
+    ./startup-script.sh
 
