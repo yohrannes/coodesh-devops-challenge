@@ -7,6 +7,6 @@ build-job:
   script:
     apt-get update;
     apt-get install -y sudo;
-    whoami
-    which sudo
+    whoami;
+    which sudo;
 
