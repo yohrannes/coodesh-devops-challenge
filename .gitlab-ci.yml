@@ -30,4 +30,4 @@ build-app-image-teste:
   stage: build
   image: docker:27.1.2-dind
   script:
-    - docker build -t yohrannes/coodesh-challenge
+    - docker build -t yohrannes/coodesh-challenge .
