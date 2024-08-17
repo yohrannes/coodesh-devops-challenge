@@ -61,7 +61,7 @@ build-app-image-test:
   services:
     - docker:27.1.2-dind
   script:
-    - docker build -t yohrannes/coodesh-challenge:latest .
+    - docker build -t yohrannes/coodesh-challenge:latest ./build-app/.
     #docker push yohrannes/coodesh-challenge:latest
     - |
       if [ $? -eq 0 ]; then
