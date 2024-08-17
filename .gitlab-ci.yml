@@ -78,8 +78,6 @@ deploy-with-terraform:
   script:
     - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
-    - export GOOGLE_CLOUD_PROJECT=<seu-project-id>;
-    - export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json;
     - export GOOGLE_REGION=us-central1;
     - export GOOGLE_ZONE=us-central1-a;
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
