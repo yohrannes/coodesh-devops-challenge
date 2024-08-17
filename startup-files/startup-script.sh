@@ -12,6 +12,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo docker run -d -p 5000:5000 yohrannes/coodesh-challenge
+#sudo docker run -d -v $PWD:/root -p 5000:5000 yohrannes/coodesh-challenge
 sudo bash startup-files/install-nginx.sh
 }
 function install-nginx () {
