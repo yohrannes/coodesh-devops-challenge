@@ -78,6 +78,7 @@ deploy-with-terraform:
   variables:
     DOCKER_DRIVER: overlay2
   script:
+    - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
 
     - echo "Configuring Terraform backend..."
