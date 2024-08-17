@@ -82,18 +82,18 @@ deploy-with-terraform:
     - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
-    - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
-    - |
-      cat <<EOF > main.tf
-      terraform {
-        backend "gcs" {
-          bucket  = "coodesh-bucket"
-          prefix  = "terraform/state"
-        }
-      }
-      EOF
-    - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
     - cat main.tf
+    #- docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
+    #- |
+    #  cat <<EOF > main.tf
+    #  terraform {
+    #    backend "gcs" {
+    #      bucket  = "coodesh-bucket"
+    #      prefix  = "terraform/state"
+    #    }
+    #  }
+    #  EOF
+    #- docker run -v $PWD:/root -w /root hashicorp/terraform:light init
     #- docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
 
     # Verificar o status do último comando apply
