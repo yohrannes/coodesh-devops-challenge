@@ -78,11 +78,8 @@ deploy-with-terraform:
   script:
     - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
-    - echo $GOOGLE_CLOUD_PROJECT
-    - export GOOGLE_REGION=us-central1;
-    - export GOOGLE_ZONE=us-central1-a;
-    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT hashicorp/terraform:light init
-    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT hashicorp/terraform:light apply -auto-approve
+    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT -e GOOGLE_REGION=us-central1 -e GOOGLE_ZONE=us-central1-a hashicorp/terraform:light init
+    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT -e GOOGLE_REGION=us-central1 -e GOOGLE_ZONE=us-central1-a hashicorp/terraform:light apply -auto-approve
     - |
       cat <<EOF >> main.tf
       terraform {
@@ -92,8 +89,8 @@ deploy-with-terraform:
         }
       }
       EOF
-    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT hashicorp/terraform:light init
-    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT hashicorp/terraform:light apply -auto-approve
+    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT -e GOOGLE_REGION=us-central1 -e GOOGLE_ZONE=us-central1-a hashicorp/terraform:light init
+    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT -e GOOGLE_REGION=us-central1 -e GOOGLE_ZONE=us-central1-a hashicorp/terraform:light apply -auto-approve
 
     # Verificar o status do último comando apply
     - |
