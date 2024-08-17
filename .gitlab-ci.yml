@@ -1,8 +1,8 @@
 stages:
-  - deploy
+  #- deploy
   - test
   - build
-  #- deploy
+  - deploy
 
 install-nginx-test:
   stage: test
@@ -47,7 +47,9 @@ check-image-security:
     - |
       if [ $? -eq 0 ]; then
         echo "CHECANDO VULNERABILIDADES DA IMAGEM DA APLICAÇÂO"
-        cat trivy-scan.txt
+        if [[ "$(cat trivy-scan.txt | grep HIGH)" ]]; then
+          echo "VULNERABILIDADE ENCONTRADA!!!";
+        fi
       else
         echo "FALHA AO VERIFICAR IMAGEM"
         exit 1
@@ -60,6 +62,7 @@ build-app-image-test:
     - docker:27.1.2-dind
   script:
     - docker build -t yohrannes/coodesh-challenge:latest .
+    #docker push yohrannes/coodesh-challenge:latest
     - |
       if [ $? -eq 0 ]; then
         echo "IMAGEM DOCKER OK"

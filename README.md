@@ -113,27 +113,27 @@ gcloud projects list
 ```
 - [ ] Liberar permissões de compute e network para a service account, mais informações neste [link.](https://cloud.google.com/iam/docs/understanding-roles#compute-engine-roles)
 ```
+export GOOGLE_CLOUD_PROJECT="seu-project-id";
+export SERVICE_ACCOUNT_EMAIL="<email-da-service-account>";
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/compute.instanceAdmin.v1"; \
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/compute.instanceAdmin.v1" && \
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/compute.networkAdmin";
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/compute.networkAdmin" && \
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/cloudbuild.integrationsOwner";
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/cloudbuild.integrationsOwner" && \
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/vpcaccess.serviceAgent";
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/vpcaccess.serviceAgent" && \
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/backupdr.cloudStorageOperator";
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/storage.admin" && \
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/storage.admin";
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:<email-da-service-account-desejada>" \
---role "roles/compute.securityAdmin";
+  --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+  --role "roles/compute.securityAdmin"
+
 ```
 
 - [ ] Inicializando o terraform, e provisionando a VPS.
