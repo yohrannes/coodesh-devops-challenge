@@ -81,10 +81,10 @@ deploy-with-terraform:
   script:
     - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
-
-    - echo "Configuring Terraform backend..."
+    - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
+    - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
     - |
-      cat <<EOF >> main.tf
+      cat <<EOF > main.tf
       terraform {
         backend "gcs" {
           bucket  = "coodesh-bucket"
@@ -92,19 +92,14 @@ deploy-with-terraform:
         }
       }
       EOF
+    - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
+    - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
 
-    - echo "Running Terraform init..."
-    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light init
-
-    - echo "Running Terraform plan..."
-    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light plan
-
-    - echo "Running Terraform apply..."
-    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
+    # Verificar o status do último comando apply
     - |
       if [ $? -eq 0 ]; then
-        echo "Infraestrutura provisionada OK"
+        echo "Infraestrutura provisionada e configurada com sucesso."
       else
-        echo "Infraestrutura provisionada OK"
+        echo "Falha ao provisionar ou configurar a infraestrutura."
         exit 1
       fi
