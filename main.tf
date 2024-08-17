@@ -1,7 +1,5 @@
 provider "google" {}
 
-#docker run -it -v $PWD:/root -w /root --entrypoint "" hashicorp/terraform:light sh
-
 resource "google_compute_network" "vpc_network" {
   name                    = "cd-vpc"
   auto_create_subnetworks = false
@@ -79,9 +77,16 @@ resource "google_compute_instance" "coodesh-webserver" {
     }
   }
 }
+
+resource "google_storage_bucket" "static-site" {
+  name          = "coodesh-bucket"
+  location      = "EU"
+  force_destroy = true
+
+  uniform_bucket_level_access = true
+}
+
 locals {
   startup_script_path = "startup-files/startup-script.sh"
-  install_nginx_script_path = "startup-files/install-nginx.sh"
   startup_script_content = file(local.startup_script_path)
-  install_nginx_script_content = file(local.install_nginx_script_path)
 }

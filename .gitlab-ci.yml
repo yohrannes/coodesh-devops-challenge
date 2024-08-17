@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - deploy
 
 install-nginx-test:
   stage: test
@@ -68,4 +69,38 @@ build-app-image-test:
         echo "Falha na instalação do NGINX"
         exit 1
       fi
+
+deploy-with-terraform:
+  stage: deploy
+  image: docker:23.0.2
+  services:
+    - docker:dind
+  variables:
+    # Define variáveis de ambiente necessárias para o Docker
+    DOCKER_DRIVER: overlay2
+  script:
+    # Criar o arquivo main.tf com a configuração do backend
+    - echo "Configuring Terraform backend..."
+    - |
+      cat <<EOF > main.tf
+      terraform {
+        backend "gcs" {
+          bucket  = "coodesh-bucket"
+          prefix  = "terraform/state"
+        }
+      }
+      EOF
+
+    # Autenticar o container do Terraform com a chave JSON
+    - echo "Authenticating with Google Cloud..."
+    - mkdir -p /root/.config/gcloud
+    - cp /key.json /root/.config/gcloud/application_default_credentials.json
+
+    # Executar terraform init e plan
+    - echo "Running Terraform init..."
+    - docker run -it -v $PWD:/root -w /root -v /key.json:/key.json hashicorp/terraform:light init
+
+    - echo "Running Terraform plan..."
+    - docker run -it -v $PWD:/root -w /root -v /key.json:/key.json hashicorp/terraform:light plan
+
 

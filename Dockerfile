@@ -6,7 +6,7 @@ RUN apk update
 RUN apk upgrade
 
 # Installing useful programs
-RUN apk add --upgrade nano
+RUN apk add --upgrade nano zip
 
 COPY . .
 
@@ -21,7 +21,7 @@ RUN apk add --upgrade nano
 RUN set FLASK_ENV=development
 EXPOSE 5000
 
-# Config crond and app
+# Config crond + app
 ADD crontab.txt /crontab.txt
 ADD script.sh /script.sh
 COPY entry.sh /entry.sh
