@@ -76,10 +76,10 @@ deploy-with-terraform:
   services:
     - docker:dind
   variables:
-    # Define variáveis de ambiente necessárias para o Docker
     DOCKER_DRIVER: overlay2
   script:
-    # Criar o arquivo main.tf com a configuração do backend
+    - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
+
     - echo "Configuring Terraform backend..."
     - |
       cat <<EOF > main.tf
@@ -91,16 +91,9 @@ deploy-with-terraform:
       }
       EOF
 
-    # Autenticar o container do Terraform com a chave JSON
-    - echo "Authenticating with Google Cloud..."
-    - mkdir -p /root/.config/gcloud
-    - cp /key.json /root/.config/gcloud/application_default_credentials.json
-
-    # Executar terraform init e plan
     - echo "Running Terraform init..."
-    - docker run -it -v $PWD:/root -w /root -v /key.json:/key.json hashicorp/terraform:light init
+    - docker run -it -v $PWD:/root -w /root hashicorp/terraform:light init
 
     - echo "Running Terraform plan..."
-    - docker run -it -v $PWD:/root -w /root -v /key.json:/key.json hashicorp/terraform:light plan
-
+    - docker run -it -v $PWD:/root -w /root hashicorp/terraform:light plan
 
