@@ -93,7 +93,8 @@ deploy-with-terraform:
       }
       EOF
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
-    - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
+    - cat main.tf
+    #- docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
 
     # Verificar o status do último comando apply
     - |
