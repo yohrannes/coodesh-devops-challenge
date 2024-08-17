@@ -23,7 +23,7 @@ install-nginx-test:
       if [ $? -eq 0 ]; then
         echo "NGINX OK"
       else
-        echo "Falha na instalação do NGINX"
+        echo "FALHA NA INSTALAÇÃO DO NGINX"
         exit 1
       fi
 
@@ -33,12 +33,9 @@ check-image-security:
   before_script:
     - apt-get update
     - apt-get install -y sudo
-    - whoami
-    - which sudo
     - chmod +x /usr/bin/sudo
     - sudo echo "sudo funcionando..."
     - apt-get install -y systemd libpam-systemd
-    - which systemctl
     - echo "systemd instalado"
     - sudo apt-get install -y wget apt-transport-https gnupg lsb-release
     - wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
@@ -49,10 +46,10 @@ check-image-security:
     - trivy image yohrannes/website-portifolio > trivy-scan.txt
     - |
       if [ $? -eq 0 ]; then
-        echo "CHECANDO VULNERABILIDADES DA IMAGEM"
+        echo "CHECANDO VULNERABILIDADES DA IMAGEM DA APLICAÇÂO"
         cat trivy-scan.txt
       else
-        echo "Falha na instalação do NGINX"
+        echo "FALHA AO VERIFICAR IMAGEM"
         exit 1
       fi
 
@@ -67,7 +64,7 @@ build-app-image-test:
       if [ $? -eq 0 ]; then
         echo "IMAGEM DOCKER OK"
       else
-        echo "Falha na instalação do NGINX"
+        echo "FALHA NO BUILD DA IMAGEM DA APLICAÇÂO"
         exit 1
       fi
 
@@ -81,11 +78,15 @@ deploy-with-terraform:
   script:
     - mkdir -p /root/.config/gcloud
     - echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64" | base64 -d > /root/.config/gcloud/application_default_credentials.json
+    - export GOOGLE_CLOUD_PROJECT=<seu-project-id>;
+    - export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json;
+    - export GOOGLE_REGION=us-central1;
+    - export GOOGLE_ZONE=us-central1-a;
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light init
     - cat main.tf
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
     - |
-      cat <<EOF > main.tf
+      cat <<EOF >> main.tf
       terraform {
         backend "gcs" {
           bucket  = "coodesh-bucket"
