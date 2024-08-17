@@ -151,6 +151,14 @@ curl http://<ip-publico-da-vps>
 
 ![fluxgrama-pipeline](./fluxograma-pipeline.png)
 
+## Descritivo da Pipeline
+
+### Test
+
+### Build
+
+### Deploy
+
 ## Passos na executados no desafio.
 
 ### 1 - Configuração do Servidor
