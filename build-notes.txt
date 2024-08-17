@@ -1,2 +1,0 @@
-docker build --network host -t yohrannes/website-portifolio .
-docker run -d -p 5000:5000 --network host yohrannes/website-portifolio
