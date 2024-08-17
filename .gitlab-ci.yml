@@ -94,8 +94,8 @@ deploy-with-terraform:
       EOF
 
     - echo "Running Terraform init..."
-    - docker run -it -v $PWD:/root -w /root hashicorp/terraform:light init
+    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light init
 
     - echo "Running Terraform plan..."
-    - docker run -it -v $PWD:/root -w /root hashicorp/terraform:light plan
+    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light plan
 
