@@ -99,3 +99,12 @@ deploy-with-terraform:
     - echo "Running Terraform plan..."
     - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light plan
 
+    - echo "Running Terraform apply..."
+    - docker run -d -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
+    - |
+      if [ $? -eq 0 ]; then
+        echo "Infraestrutura provisionada OK"
+      else
+        echo "Infraestrutura provisionada OK"
+        exit 1
+      fi
