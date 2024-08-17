@@ -81,7 +81,7 @@ deploy-with-terraform:
     - echo $GOOGLE_CLOUD_PROJECT
     - export GOOGLE_REGION=us-central1;
     - export GOOGLE_ZONE=us-central1-a;
-    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT hashicorp/terraform:light init
+    - docker run -v $PWD:/root -w /root -e GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT hashicorp/terraform:light init
     - docker run -v $PWD:/root -w /root hashicorp/terraform:light apply -auto-approve
     - |
       cat <<EOF >> main.tf
