@@ -1,9 +1,0 @@
-#!/bin/bash
-cat <<EOF > main.tf
-terraform {
-backend "gcs" {
-bucket  = "coodesh-bucket"
-prefix  = "terraform/state"
-}
-}
-EOF

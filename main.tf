@@ -86,6 +86,13 @@ resource "google_storage_bucket" "static-site" {
   uniform_bucket_level_access = true
 }
 
+#terraform {
+#  backend "gcs" {
+#    bucket  = "coodesh-bucket"
+#    prefix  = "terraform/state"
+#  }
+#}
+
 locals {
   startup_script_path = "startup-files/startup-script.sh"
   startup_script_content = file(local.startup_script_path)
