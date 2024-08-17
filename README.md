@@ -126,9 +126,16 @@ gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
 --member "serviceAccount:<email-da-service-account-desejada>" \
 --role "roles/vpcaccess.serviceAgent";
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
---member "serviceAccount:sva-terraform-coodesh@my-project-418420.iam.gserviceaccount.com" \
+--member "serviceAccount:<email-da-service-account-desejada>" \
 --role "roles/backupdr.cloudStorageOperator";
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/storage.admin";
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+--member "serviceAccount:<email-da-service-account-desejada>" \
+--role "roles/compute.securityAdmin";
 ```
+
 - [ ] Inicializando o terraform, e provisionando a VPS.
 ```
 terraform init
