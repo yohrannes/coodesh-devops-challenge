@@ -149,7 +149,7 @@ curl http://<ip-publico-da-vps>
 
 ## Fluxograma
 
-![fluxograma](fluxgrama-pipeline.png)
+![fluxgrama-pipeline](./fluxograma-pipeline.png)
 
 ## Passos na executados no desafio.
 
