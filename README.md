@@ -178,7 +178,7 @@ curl http://<ip-publico-da-vps>
 
   Primeiramente para executarmos este job utilizaremos a imagem do docker, com o serviço do docker dind para realizarmos o build da imagem oficial da hashicorp(terraform) que utilizaremos para executar os comandos necessários para provisionar a infraestrutura. Após isso criamos um diretório para fazer a autenticação da nossa service account com o provider da google, utilizando a chave key.json para fazer a autenticação.
 
-  Adiante seguimos com o comando terraform init e depois com o terraform apply, onde provisionamos a infraestrutura por completo, após toda a infraestrutura ser provisionada adicionamos ao arquivo main.tf do terraform a informação de que ele precisará armazenar o estado da infraestrutura dentro do bucket já criado (coodesh-bucket) sendo assim, temos o nosso backup caso ocorra algum problema em qualquer estado do provisionamento da infraestrutura, ou perca de arquivos, sabemos que o estado de toda a infra está dentro do bucket protejido. Caso dê tudo certo ou não, será informado.
+  Adiante seguimos com o comando terraform init e depois com o terraform apply, onde provisionamos a infraestrutura por completo, após toda a infraestrutura ser provisionada adicionamos ao arquivo main.tf do terraform a informação de que ele precisará armazenar o estado da infraestrutura dentro do bucket já criado (coodesh-bucket) sendo assim, temos o nosso backup caso ocorra algum problema em qualquer estado do provisionamento da infraestrutura, ou perca de arquivos, sabemos que o estado de toda a infra está dentro do bucket protegido. Caso dê tudo certo ou não, será informado.
 
 ### Observações
 
