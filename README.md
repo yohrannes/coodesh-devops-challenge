@@ -184,7 +184,7 @@ curl http://<ip-publico-da-vps>
 
   As variáveis de ambiente mais sigilosas são passadas diretamente na conta do gitlab sendo protegidas e mascaradas.
 
-  Por questões de tempo ainda não foi provisionado uma forma para p provisionamente de uma infra de monitoramento, porém a intenção era dentro da VPS, além de rodar a imagem da aplicação, instalar o node exporter e o prometheus na VPS, e o node exporter na imagem da a plicação, mandando assim métricas de estado de cpu, ram e disco para algum monitorador externo de preferência (outra VPS) para monitorar toda a infra.
+  Por questões de tempo ainda não foi provisionado uma forma para o provisionamente de uma infra de monitoramento, porém a intenção era dentro da VPS, além de rodar a imagem da aplicação, instalar o node exporter e o prometheus na VPS, e o node exporter na imagem da a plicação, mandando assim métricas de estado de cpu, ram e disco para algum monitorador externo de preferência (outra VPS) para monitorar toda a infra.
 
 ## Passos na executados no desafio.
 
