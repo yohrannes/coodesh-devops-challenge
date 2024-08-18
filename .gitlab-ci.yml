@@ -43,7 +43,7 @@ check-image-security:
     - sudo apt-get update
     - sudo apt-get install -y trivy
   script:
-    - trivy image yohrannes/website-portifolio > trivy-scan.txt
+    - trivy image yohrannes/coodesh-challenge > trivy-scan.txt
     - |
       if [ $? -eq 0 ]; then
         echo "CHECANDO VULNERABILIDADES DA IMAGEM DA APLICAÇÂO"
@@ -56,6 +56,7 @@ check-image-security:
       fi
 
 build-app-image-test:
+  needs: ['check-image-security']
   stage: build
   image: docker:27.1.2
   services:
@@ -72,6 +73,7 @@ build-app-image-test:
       fi
 
 deploy-with-terraform:
+  needs: ['build-app-image-test']
   stage: deploy
   image: docker:23.0.2
   services:
