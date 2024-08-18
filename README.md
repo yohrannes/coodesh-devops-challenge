@@ -1,12 +1,13 @@
 # Devops na Google Cloud
 
-Este projeto consiste em realizar provisionamento de um servidor e hospedagem de website na Google Cloud, utilizando CI-CD e infra-as-code, com diversas ferramentas e configurações na melhor prática possível segunda as recomendações da GCP com segurança,grupos de segurança e configurações de rede provisionado totalmente por código.
+Este projeto consiste em realizar provisionamento de um servidor Ubuntu 22.04 LTS e hospedá-lo no na Google Cloud, juntamente com na criação de VPN, Subregion e um bucket para armazenar o estado da infraestrutura; Utilizando CI-CD do gitlab para a pipeline e infra-as-code com o terraform, com diversas ferramentas e configurações na melhor prática possível segundo as recomendações da GCP com segurança, provisionadas totalmente por código.
 
 ## Tecnologias utilizadas
 
 ### Ferramentas
 - Docker
 - Terraform
+- Nginx
 
 ### Linguagens
 - Python
@@ -46,7 +47,7 @@ sudo apt update; sudo apt-get install terraform
 terraform -v
 ```
 ### 2 - Instalação do GCP CLI
-Mais informações neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
+Mais informações na documentação oficial neste [link](https://cloud.google.com/sdk/docs/install-sdk?hl=pt-br&cloudshell=false#deb)
 
 - [ ] Confira pacotes e programas antes da instalação
 ```
@@ -73,7 +74,7 @@ gcloud init
 To continue, you must log in. Would you like to log in (Y/n)? Y
 ```
 - [ ] No seu navegador, faça login na sua conta de usuário do Google quando solicitado e clique em Permitir para permitir acesso aos recursos do Google Cloud.
-- [ ] No prompt de comando, selecione um projeto do Google Cloud na lista. de projetos em que você tem permissões de Proprietário, Editor ou Leitor.
+- [ ] No prompt de comando, selecione um projeto do Google Cloud na lista. de projetos em que você tem permissões de Proprietário ou Editor.
 ```
 Pick cloud project to use:
  [1] [my-project-1]
@@ -86,7 +87,7 @@ Após isso você já estará autenticado com o CLI!
 
 ### 3 - Autenticação do Terraform com a GCP
 
-  Primeiramente precisaremos fazer a criação de uma service account para podermos fazer o provisionamento no terraform somente da VPS, utilizando a recomendação amplamete utilizada em diversos casos garantindo isolamento de credenciais, mínimos priivlégios e facilitando auditorias, com total conformidade com as políticas de segurança.
+  Primeiramente precisaremos fazer a criação de uma service account para podermos fazer o provisionamento no terraform da VPS e bucket, utilizando a recomendação amplamete utilizada em diversos casos garantindo isolamento de credenciais (service account), mínimos priivlégios e facilitando auditorias, com total conformidade com as políticas de segurança.
 
 - [ ] Crie uma service account
 ```
@@ -100,7 +101,7 @@ gcloud iam service-accounts list
 ```
 gcloud iam service-accounts keys create key.json --iam-account <email-da-service-account-desejada>
 ```
-- [ ] Setando variável de ambiente do project-id, credenciasi necessárias e região onde estará a VPS.
+- [ ] Setando variáveis de ambiente do project-id, credenciasi necessárias e região onde estará a VPS.
 ```
 export GOOGLE_CLOUD_PROJECT=<seu-project-id>;
 export GOOGLE_APPLICATION_CREDENTIALS=$PWD/key.json;
@@ -111,9 +112,8 @@ export GOOGLE_ZONE=us-central1-a;
 ```
 gcloud projects list
 ```
-- [ ] Liberar permissões de compute e network para a service account, mais informações neste [link.](https://cloud.google.com/iam/docs/understanding-roles#compute-engine-roles)
+- [ ] Liberar permissões de compute, network e firewall para a service account, mais informações na documentação oficial neste [link.](https://cloud.google.com/iam/docs/understanding-roles#compute-engine-roles)
 ```
-export GOOGLE_CLOUD_PROJECT="seu-project-id";
 export SERVICE_ACCOUNT_EMAIL="<email-da-service-account>";
 gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
   --member "serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
@@ -142,12 +142,21 @@ terraform init
 terraform plan
 terraform apply
 ```
-  Após isso será necessário aguardar em torno de 8-10 minutos (devido a baixa potência da VPS) e acessar o link com http.
+- [ ] Verificar qual é o ip publico da VPS e copiá-lo(EXTERNAL_IP).
+```
+gcloud compute instances list
+```
+  Após isso será necessário aguardar em torno de 8-10 minutos (devido a baixa potência da VPS) e acessar o link com http no navegador ou via linha de comando mesmo com o curl (lembrando no momento é http e não https ainda).
 ```
 curl http://<ip-publico-da-vps>
 ```
+  Demais passos para a configuração , teste e provisionamento serão feitos a partir da pipeline do gitlab.
 
-## Fluxograma
+## Diagrama da infraestrutua
+
+![diagrama-infra](./diagrama-infra.png)
+
+## Fluxograma da pipelina
 
 ![fluxgrama-pipeline](./fluxograma-pipeline.png)
 
@@ -155,9 +164,27 @@ curl http://<ip-publico-da-vps>
 
 ### Test
 
+  Este estágio é composto dois jobs, o primeiro (install-nginx-test) é onde verificamos a instalação do nginx em uma imagem docker que seja do mesmo sistema operacional (ubuntu),versão (22.04) e arquitetura do processador da VPS na GCP, que será provisionada (amd64 que já é a utilizada no executor do gitlab). Imagem que executará o mesmo script de inicialização que é especificado na criação da VPS, com uma diferença na execução (install-nginx) pois realizaremos o teste somente da function install-nginx do script que será utilizada na VPS da GCP. Esta function consiste resumidamente na instalação do nginx e configuração do mesmo como proxy para redirecionar a porta 80 da VPS para a 5000 onde se encontrará rodando o container da aplicação. Caso dê tudo certo ou não, será informado.
+
+  O segundo job neste estágio de test é o check-image-security, onde basicamente é feita a instalação da ferramenta trivy em uma imagem que simulará a VPS ubuntu na GCP, ferramenta amplamente utilizada para verificar vulnerabilidades em imagens dockers, onde verificará e informará o estado de segurança da imagem da aplicação na pipeline e salvará em um arquivo de texto(trivy image yohrannes/coodesh-challenge > trivy-scan.txt), caso encontre uma vulnerabilidade do tipo HIGH será informado.
+
 ### Build
 
+  Neste estágio temos somente um job onde será provisionado uma imagem do docker (docker:27.1.2), utilizando o serviço do docker dind, que nos ajudará a verificar o build da imagem da aplicação, caso tudo ocorra bem no estágio anterior e no build da imagem, deverá realizar o pull, enviando a imagem da forma correta para o registry do docker (dockerhub).
+
 ### Deploy
+
+  Este é o ultimo estágio onde será realizado o deploy de toda a infraestrutura e instalação da VPS, caso tudo ocorra bem.
+
+  Primeiramente para executarmos este job utilizaremos a imagem do docker, com o serviço do docker dind para realizarmos o build da imagem oficial da hashicorp(terraform) que utilizaremo para executar os comandos necessários para provisionar a infraestrutura. Após isso criamos um diretório para fazer a autenticação da nossa service account com o provider da google, utilizando a chave key.json para fazer a autenticação.
+
+  Adiante seguimos com o comando terraform init e depois com o terraform apply, onde provisionamos a infraestrutura por completo, após toda a infraestrutura ser provisionada adicionamos ao arquivo main.tf do terraform a informação de que ele precisará armazenar o estado da infraestrutura dentro do bucket já criado (coodesh-bucket) sendo assim, temos o nosso backup caso ocorra algum problema em qualquer estado do provisionamento da infraestrutura, ou perca de arquivos, sabemos que o estado de toda a infra está dentro do bucket protejido. Caso dê tudo certo ou não, será informado.
+
+### Observações
+
+  As variáveis de ambiente mais sigilosas são passadas diretamente na conta do gitlab sendo protegidas e mascaradas.
+
+  Por questões de tempo ainda não foi provisionado uma forma para p provisionamente de uma infra de monitoramento, porém a intenção era dentro da VPS, além de rodar a imagem da aplicação, instalar o node exporter e o prometheus na VPS, e o node exporter na imagem da a plicação, mandando assim métricas de estado de cpu, ram e disco para algum monitorador externo de preferência (outra VPS) para monitorar toda a infra.
 
 ## Passos na executados no desafio.
 

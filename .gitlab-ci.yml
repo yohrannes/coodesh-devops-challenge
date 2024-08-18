@@ -56,7 +56,7 @@ check-image-security:
       fi
 
 build-app-image-test:
-  needs: ['check-image-security']
+  needs: ['install-nginx-test']
   stage: build
   image: docker:27.1.2
   services:
